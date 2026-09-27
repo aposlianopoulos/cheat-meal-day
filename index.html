@@ -86,8 +86,58 @@
   .blob.b2 { width: 300px; height: 300px; background: #ffe1c4; bottom: -110px; left: -120px; }
   .blob.b3 { width: 160px; height: 160px; background: #ffb9a3; top: 42%; left: 60%; opacity: 0.3; }
 
+  /* Puppies */
+  .pups {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .pup, .peek, .thanks-pup {
+    filter: drop-shadow(0 6px 10px rgba(176, 92, 60, 0.18));
+    pointer-events: none;
+    overflow: visible;
+  }
+  .pup {
+    position: absolute;
+    width: var(--s, 72px);
+    height: var(--s, 72px);
+    animation: bob 3.4s ease-in-out infinite;
+  }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+    50%      { transform: translateY(-8px) rotate(calc(var(--r, 0deg) * -1)); }
+  }
+  .paw {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    fill: var(--accent);
+    opacity: 0.16;
+  }
+  .peek {
+    position: absolute;
+    top: -40px;
+    right: 18px;
+    width: 66px;
+    height: 66px;
+    --r: 8deg;
+    animation: bob 3s ease-in-out infinite;
+  }
+  .thanks-pup {
+    display: block;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 10px;
+    --r: -6deg;
+    animation: bob 2.6s ease-in-out infinite;
+  }
+
   /* Layout */
   .app {
+    position: relative;
+    z-index: 1;
     min-height: 100vh;
     min-height: 100dvh;
     display: flex;
@@ -113,6 +163,7 @@
     border-radius: var(--radius);
     box-shadow: var(--shadow);
     padding: 30px 22px 26px;
+    margin-top: 30px;         /* room for the peeking puppy */
     text-align: center;
     -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
@@ -482,6 +533,48 @@
   <span class="blob b3"></span>
 </div>
 
+<!-- Reusable drawings: a puppy face (colors come from --fur / --ear / --patch) and a paw print -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="pup" viewBox="0 0 100 100">
+      <ellipse cx="22" cy="44" rx="13" ry="25" transform="rotate(18 22 44)" style="fill:var(--ear)"/>
+      <ellipse cx="78" cy="44" rx="13" ry="25" transform="rotate(-18 78 44)" style="fill:var(--ear)"/>
+      <ellipse cx="50" cy="56" rx="31" ry="29" style="fill:var(--fur)"/>
+      <ellipse cx="63" cy="50" rx="10" ry="9" style="fill:var(--patch, transparent)"/>
+      <ellipse cx="50" cy="69" rx="16" ry="12" fill="#fffaf3"/>
+      <circle cx="38" cy="53" r="4.6" fill="#3d2a23"/>
+      <circle cx="62" cy="53" r="4.6" fill="#3d2a23"/>
+      <circle cx="39.6" cy="51.4" r="1.6" fill="#fff"/>
+      <circle cx="63.6" cy="51.4" r="1.6" fill="#fff"/>
+      <circle cx="29" cy="64" r="4.6" fill="#f59a9a" opacity=".5"/>
+      <circle cx="71" cy="64" r="4.6" fill="#f59a9a" opacity=".5"/>
+      <path d="M45 72 q5 11 10 0 z" fill="#f47c7c"/>
+      <ellipse cx="50" cy="63.5" rx="5.6" ry="4.2" fill="#3d2a23"/>
+      <path d="M41 69.5 q4.5 5 9 0 q4.5 5 9 0" fill="none" stroke="#3d2a23" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="paw" viewBox="0 0 40 40">
+      <ellipse cx="20" cy="27" rx="10" ry="8.5"/>
+      <ellipse cx="8" cy="15.5" rx="4.4" ry="5.6"/>
+      <ellipse cx="16" cy="9" rx="4.4" ry="5.6"/>
+      <ellipse cx="24" cy="9" rx="4.4" ry="5.6"/>
+      <ellipse cx="32" cy="15.5" rx="4.4" ry="5.6"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- Puppies & paw prints around the page (decorative, never block taps) -->
+<div class="pups" aria-hidden="true">
+  <svg class="pup" viewBox="0 0 100 100" style="--fur:#f3c89a;--ear:#b9794a;--s:74px;--r:-12deg;top:3%;left:-6px;animation-delay:0s"><use href="#pup"/></svg>
+  <svg class="pup" viewBox="0 0 100 100" style="--fur:#fffaf5;--ear:#8a5a3c;--patch:#d2a57c;--s:82px;--r:10deg;top:5%;right:-10px;animation-delay:-1.2s"><use href="#pup"/></svg>
+  <svg class="pup" viewBox="0 0 100 100" style="--fur:#dcd4d0;--ear:#8f8480;--s:66px;--r:8deg;bottom:4%;left:5%;animation-delay:-0.6s"><use href="#pup"/></svg>
+  <svg class="pup" viewBox="0 0 100 100" style="--fur:#b0744c;--ear:#6e4127;--s:78px;--r:-9deg;bottom:3%;right:-4px;animation-delay:-2s"><use href="#pup"/></svg>
+  <svg class="pup" viewBox="0 0 100 100" style="--fur:#f6dcae;--ear:#e0a95e;--s:52px;--r:6deg;bottom:15%;left:42%;animation-delay:-1.6s"><use href="#pup"/></svg>
+  <svg class="paw" style="top:17%;left:28%;transform:rotate(-20deg)"><use href="#paw"/></svg>
+  <svg class="paw" style="top:13%;right:30%;transform:rotate(15deg)"><use href="#paw"/></svg>
+  <svg class="paw" style="bottom:17%;left:10%;transform:rotate(10deg)"><use href="#paw"/></svg>
+  <svg class="paw" style="bottom:22%;right:12%;transform:rotate(-25deg)"><use href="#paw"/></svg>
+</div>
+
 <main class="app">
 
   <!-- STEP 1: Invitation -->
@@ -546,6 +639,16 @@
     </div>
   </section>
 
+  <!-- STEP 5: Thank you -->
+  <section class="step" id="step-thanks" hidden>
+    <div class="card">
+      <svg class="thanks-pup" viewBox="0 0 100 100" aria-hidden="true" style="--fur:#f3c89a;--ear:#b9794a;--patch:transparent"><use href="#pup"/></svg>
+      <h2>Thank you for submitting your answer! 💌</h2>
+      <p class="lead" id="thanksWhen"></p>
+      <button type="button" class="link-btn" id="restartBtn2">↺ start over</button>
+    </div>
+  </section>
+
 </main>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -563,10 +666,6 @@ const CONFIG = {
   // Optional: after activating, FormSubmit gives you a random alias string;
   // put that here instead so your address isn't visible in the page source.
   notifyEmail: "apostolosl13@gmail.com",
-
-  // Backup if the email can't be sent: copy the answer + open your IG DMs.
-  // Your Instagram username, without the @. Opens https://ig.me/m/<username>
-  instagramUsername: "MY_USERNAME",
 
   // Your WhatsApp number in international format, digits only, no "+" or spaces
   // (e.g. "306912345678"). Leave "" to hide the WhatsApp button.
@@ -601,12 +700,26 @@ const CONFIG = {
 
   const state = { food: null, date: null, time: null, summary: "" };
 
+  // A different little puppy peeking over the corner of each card
+  const PEEKERS = [
+    "--fur:#fffaf5;--ear:#8a5a3c;--patch:#d2a57c",
+    "--fur:#f3c89a;--ear:#b9794a",
+    "--fur:#dcd4d0;--ear:#8f8480",
+    "--fur:#b0744c;--ear:#6e4127",
+  ];
+  document.querySelectorAll(".step:not(#step-thanks) .card").forEach((card, i) => {
+    card.insertAdjacentHTML("afterbegin",
+      '<svg class="peek" viewBox="0 0 100 100" aria-hidden="true" style="' + PEEKERS[i % PEEKERS.length] +
+      '"><use href="#pup"/></svg>');
+  });
+
   /* ---------------- Step navigation ---------------- */
   const steps = {
     invite: $("step-invite"),
     food: $("step-food"),
     date: $("step-date"),
     done: $("step-done"),
+    thanks: $("step-thanks"),
   };
   let currentStep = steps.invite;
   let navigating = false;
@@ -629,7 +742,7 @@ const CONFIG = {
       setTimeout(() => {
         next.classList.remove("is-entering");
         navigating = false;
-        if (name === "done") launchConfetti();
+        if (name === "done" || name === "thanks") launchConfetti();
       }, 440);
     }, reducedMotion ? 10 : 260);
   }
@@ -968,6 +1081,9 @@ const CONFIG = {
   function showDone() {
     state.summary = buildSummary();
     $("summary").textContent = state.summary;
+    const d = state.date;
+    $("thanksWhen").textContent = "See you on " + WEEKDAYS[d.getDay()] + ", " + d.getDate() + " " +
+      MONTHS[d.getMonth()] + " at " + state.time + " " + state.food.emoji;
     sendWaBtn.hidden = !waDigits();
     emailSent = false;
     sendIgBtn.disabled = false;
@@ -978,39 +1094,11 @@ const CONFIG = {
     return String(CONFIG.whatsappNumber || "").replace(/\D/g, "");
   }
 
-  function legacyCopy(text) {
-    const ta = document.createElement("textarea");
-    ta.value = text;
-    ta.setAttribute("readonly", "");
-    ta.style.cssText = "position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;font-size:16px;border:0;padding:0;";
-    document.body.appendChild(ta);
-    let ok = false;
-    try {
-      ta.focus({ preventScroll: true });
-      ta.select();
-      ta.setSelectionRange(0, text.length);
-      ok = document.execCommand("copy");
-    } catch (_) { ok = false; }
-    document.body.removeChild(ta);
-    try { window.getSelection().removeAllRanges(); } catch (_) {}
-    return ok;
-  }
-
   function withTimeout(promise, ms) {
     return Promise.race([
       promise,
       new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), ms)),
     ]);
-  }
-
-  async function copyText(text) {
-    // Old-school copy first: it must run synchronously inside the tap to work in in-app browsers
-    if (legacyCopy(text)) return true;
-    if (navigator.clipboard && window.isSecureContext) {
-      try { await withTimeout(navigator.clipboard.writeText(text), 1200); return true; }
-      catch (_) {}
-    }
-    return false;
   }
 
   let toastTimer = 0;
@@ -1023,21 +1111,6 @@ const CONFIG = {
   }
 
   let sending = false;
-  async function copyThenOpen(url) {
-    if (sending) return;
-    sending = true;
-    const ok = await copyText(state.summary);
-    showToast(ok ? "Copied! Just paste it in the chat 💌" : "Couldn't copy, so long-press the text above to copy it 🙏", ok ? 1600 : 3200);
-    setTimeout(() => {
-      sending = false;
-      window.location.href = url;
-    }, ok ? 900 : 2600);
-  }
-
-  function openIgFallback() {
-    const user = String(CONFIG.instagramUsername || "").replace(/^@/, "").trim();
-    copyThenOpen("https://ig.me/m/" + encodeURIComponent(user));
-  }
 
   async function sendEmail() {
     const to = String(CONFIG.notifyEmail || "").trim();
@@ -1071,7 +1144,6 @@ const CONFIG = {
   let emailSent = false;
   sendIgBtn.addEventListener("click", async () => {
     if (emailSent || sending) return;
-    if (!String(CONFIG.notifyEmail || "").trim()) { openIgFallback(); return; }
     sending = true;
     sendIgBtn.disabled = true;
     sendIgBtn.textContent = "Sending… ✨";
@@ -1080,11 +1152,11 @@ const CONFIG = {
     if (ok) {
       emailSent = true;
       sendIgBtn.textContent = "Sent! 💌";
-      showToast("Sent! See you there 😋", 2600);
+      goTo("thanks");
     } else {
       sendIgBtn.disabled = false;
       sendIgBtn.textContent = "Send me your answer 💌";
-      openIgFallback();
+      showToast("Hmm, that didn't go through. Mind trying again? 🙏", 3200);
     }
   });
 
@@ -1096,6 +1168,7 @@ const CONFIG = {
   });
 
   $("restartBtn").addEventListener("click", reset);
+  $("restartBtn2").addEventListener("click", reset);
 
   function reset() {
     stopConfetti();
