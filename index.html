@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fff4ec">
+<meta name="color-scheme" content="light">
+<title>A little invitation 🍽️</title>
+
+<!-- ============================================================
+     LINK PREVIEW (Open Graph)
+     Instagram/WhatsApp read these tags WITHOUT running JavaScript,
+     so the preview image must be set right here, not in the script.
+     Use an absolute https:// URL, ideally 1200×630 px.
+     ============================================================ -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="A little invitation 🍽️">
+<meta property="og:description" content="Tap to open">
+<meta property="og:image" content="https://example.com/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="A little invitation 🍽️">
+<meta name="twitter:description" content="Tap to open">
+<meta name="twitter:image" content="https://example.com/og-image.jpg">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍽️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #fff4ec;
+    --bg-2: #ffe6d8;
+    --bg-3: #ffd6c2;
+    --card: rgba(255, 255, 255, 0.86);
+    --ink: #3d2a23;
+    --muted: #8b716a;
+    --faint: #cdbab3;
+    --line: #f1dcd2;
+    --accent: #e4654c;
+    --accent-dark: #c64f38;
+    --accent-soft: #fdebe4;
+    --shadow: 0 14px 36px rgba(176, 92, 60, 0.16), 0 2px 8px rgba(176, 92, 60, 0.08);
+    --shadow-sm: 0 4px 14px rgba(176, 92, 60, 0.12);
+    --radius: 28px;
+    --yes-scale: 1;
+    color-scheme: light;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+  }
+  @supports (overflow: clip) { html, body { overflow-x: clip; } }
+
+  body {
+    font-family: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  /* Background: fixed layer (background-attachment: fixed is broken on iOS) */
+  .bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    background: linear-gradient(165deg, var(--bg) 0%, var(--bg-2) 55%, var(--bg-3) 100%);
+  }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.55;
+  }
+  .blob.b1 { width: 260px; height: 260px; background: #ffc9b0; top: -80px; right: -90px; }
+  .blob.b2 { width: 300px; height: 300px; background: #ffe1c4; bottom: -110px; left: -120px; }
+  .blob.b3 { width: 160px; height: 160px; background: #ffb9a3; top: 42%; left: 60%; opacity: 0.3; }
+
+  /* Layout */
+  .app {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    padding:
+      max(20px, env(safe-area-inset-top))
+      max(16px, env(safe-area-inset-right))
+      max(20px, env(safe-area-inset-bottom))
+      max(16px, env(safe-area-inset-left));
+  }
+  .step {
+    margin: auto 0;           /* vertical centering that never cuts off tall content */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .card {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    background: var(--card);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 30px 22px 26px;
+    text-align: center;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+  @media (max-width: 370px) { .card { padding: 26px 16px 22px; } }
+
+  /* Step transitions */
+  .step.is-entering { animation: stepIn 0.42s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .step.is-leaving  { animation: stepOut 0.26s ease-in forwards; pointer-events: none; }
+  @keyframes stepIn  { from { opacity: 0; transform: translateY(22px) scale(0.98); } to { opacity: 1; transform: none; } }
+  @keyframes stepOut { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(-16px) scale(0.98); } }
+
+  /* Typography */
+  .float-emoji {
+    display: inline-block;
+    font-size: 52px;
+    line-height: 1;
+    margin-bottom: 10px;
+    animation: float 3.2s ease-in-out infinite;
+    user-select: none;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-4deg); }
+    50%      { transform: translateY(-8px) rotate(4deg); }
+  }
+  h1, h2 {
+    margin: 0 0 10px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+  h1 { font-size: 32px; }
+  h2 { font-size: 26px; }
+  .lead {
+    margin: 0 auto 24px;
+    max-width: 330px;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .hint {
+    margin: -14px 0 18px;
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+
+  /* Buttons */
+  .btn {
+    appearance: none;
+    -webkit-appearance: none;
+    border: 0;
+    margin: 0;
+    font: inherit;
+    font-weight: 800;
+    font-size: 18px;
+    line-height: 1.2;
+    min-height: 54px;
+    padding: 14px 28px;
+    border-radius: 999px;
+    cursor: pointer;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    transition: transform 0.15s ease, box-shadow 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(228, 101, 76, 0.35);
+  }
+  .btn-primary:active { transform: scale(0.96); background: var(--accent-dark); }
+  .btn-primary:disabled {
+    background: #efcfc4;
+    box-shadow: none;
+    cursor: not-allowed;
+    transform: none;
+  }
+  .btn-ghost {
+    background: #fff;
+    color: var(--muted);
+    border: 2px solid var(--line);
+    box-shadow: var(--shadow-sm);
+  }
+  .btn-ghost:active { transform: scale(0.96); }
+  .btn-block { display: block; width: 100%; }
+
+  .btn-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  #yesBtn {
+    position: relative;
+    z-index: 2;
+    min-width: 132px;
+    transform: scale(var(--yes-scale));
+    transition: transform 0.35s cubic-bezier(0.34, 1.4, 0.64, 1), background-color 0.2s ease;
+    animation: glow 2.6s ease-in-out infinite;
+  }
+  #yesBtn:active { transform: scale(calc(var(--yes-scale) * 0.96)); }
+  @keyframes glow {
+    0%, 100% { box-shadow: 0 8px 20px rgba(228, 101, 76, 0.32); }
+    50%      { box-shadow: 0 10px 28px rgba(228, 101, 76, 0.5); }
+  }
+  #noBtn { min-width: 110px; white-space: nowrap; }
+  #noBtn.floating {
+    position: fixed;
+    z-index: 40;
+    margin: 0;
+    transition: left 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), top 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.15s ease;
+  }
+
+  /* Food cards */
+  .food-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .food-card {
+    appearance: none;
+    -webkit-appearance: none;
+    font: inherit;
+    color: var(--ink);
+    background: #fff;
+    border: 2.5px solid var(--line);
+    border-radius: 24px;
+    padding: 24px 10px 20px;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.15s ease, border-color 0.2s ease, background-color 0.2s ease, opacity 0.3s ease;
+  }
+  .food-card:active { transform: scale(0.96); }
+  .food-emoji { font-size: 58px; line-height: 1; }
+  .food-label { font-size: 20px; font-weight: 800; }
+  .food-card.selected {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    animation: bounce 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .food-grid.has-choice .food-card:not(.selected) { opacity: 0.45; }
+  @keyframes bounce {
+    0%   { transform: scale(1); }
+    35%  { transform: scale(1.1); }
+    65%  { transform: scale(0.97); }
+    100% { transform: scale(1); }
+  }
+
+  /* Calendar */
+  .cal-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 5px;
+  }
+  .cal-dow {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 4px 0;
+  }
+  .cal-day {
+    appearance: none;
+    -webkit-appearance: none;
+    position: relative;
+    font: inherit;
+    font-size: 16px;
+    font-weight: 800;
+    min-height: 42px;
+    aspect-ratio: 1 / 1;
+    border-radius: 14px;
+    border: 2px solid transparent;
+    background: #fff;
+    color: var(--ink);
+    box-shadow: 0 2px 6px rgba(176, 92, 60, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: transform 0.12s ease, background-color 0.2s ease, color 0.2s ease;
+  }
+  .cal-day:active:not(:disabled) { transform: scale(0.92); }
+  .cal-day:disabled {
+    background: transparent;
+    box-shadow: none;
+    color: var(--faint);
+    font-weight: 600;
+    cursor: default;
+  }
+  .cal-day.is-today::after {
+    content: "";
+    position: absolute;
+    bottom: 5px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .cal-day .m {
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    margin-bottom: 1px;
+  }
+  .cal-day.selected {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 6px 14px rgba(228, 101, 76, 0.4);
+    animation: pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  @keyframes pop { 0% { transform: scale(0.85); } 100% { transform: scale(1); } }
+
+  .times {
+    margin-top: 22px;
+    animation: stepIn 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .times-label {
+    font-size: 15px;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+  .time-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .chip {
+    appearance: none;
+    -webkit-appearance: none;
+    font: inherit;
+    font-size: 17px;
+    font-weight: 800;
+    min-height: 48px;
+    border-radius: 999px;
+    border: 2px solid var(--line);
+    background: #fff;
+    color: var(--ink);
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: transform 0.12s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+  .chip:active:not(:disabled) { transform: scale(0.94); }
+  .chip.selected {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    animation: pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .chip:disabled { color: var(--faint); background: transparent; cursor: default; }
+
+  #confirmBtn { margin-top: 22px; }
+
+  /* Final step */
+  .summary {
+    font-size: 21px;
+    font-weight: 800;
+    line-height: 1.45;
+    margin: 4px 0 18px;
+    padding: 18px 16px;
+    background: var(--accent-soft);
+    border-radius: 20px;
+    user-select: text;
+    -webkit-user-select: text;
+  }
+  .small-note {
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 600;
+    margin: 0 0 16px;
+  }
+  .stack { display: grid; gap: 12px; }
+  .link-btn {
+    appearance: none;
+    background: none;
+    border: 0;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--muted);
+    padding: 12px 16px;
+    margin-top: 12px;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+  .link-btn:active { color: var(--accent); }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: calc(24px + env(safe-area-inset-bottom));
+    transform: translate(-50%, 20px);
+    max-width: calc(100% - 32px);
+    background: var(--ink);
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    text-align: center;
+    padding: 12px 20px;
+    border-radius: 999px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 60;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+  #confetti {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 50;
+  }
+
+  /* Probe for reading iPhone safe-area insets from JS */
+  #safeProbe {
+    position: fixed;
+    top: 0; left: 0;
+    width: 0; height: 0;
+    visibility: hidden;
+    pointer-events: none;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg" aria-hidden="true">
+  <span class="blob b1"></span>
+  <span class="blob b2"></span>
+  <span class="blob b3"></span>
+</div>
+
+<main class="app">
+
+  <!-- STEP 1: Invitation -->
+  <section class="step" id="step-invite">
+    <div class="card">
+      <div class="float-emoji" aria-hidden="true">🍽️</div>
+      <h1>Hey Viktoria 👋</h1>
+      <p class="lead">I'm planning a very serious cheat meal day and I'd love some good company. Want to join me?</p>
+      <div class="btn-row" id="btnRow">
+        <button type="button" class="btn btn-primary" id="yesBtn">Yes 😋</button>
+        <button type="button" class="btn btn-ghost" id="noBtn">No</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 2: Food -->
+  <section class="step" id="step-food" hidden>
+    <div class="card">
+      <div class="float-emoji" aria-hidden="true">🤤</div>
+      <h2>Great choice 😄</h2>
+      <p class="lead">Now the important part…</p>
+      <div class="food-grid" id="foodGrid">
+        <button type="button" class="food-card" data-emoji="🥩" data-label="Steak">
+          <span class="food-emoji" aria-hidden="true">🥩</span>
+          <span class="food-label">Steak</span>
+        </button>
+        <button type="button" class="food-card" data-emoji="🍣" data-label="Sushi">
+          <span class="food-emoji" aria-hidden="true">🍣</span>
+          <span class="food-label">Sushi</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 3: Date & time -->
+  <section class="step" id="step-date" hidden>
+    <div class="card">
+      <div class="float-emoji" aria-hidden="true">🗓️</div>
+      <h2>When are you free?</h2>
+      <p class="lead" id="dayHint"></p>
+      <div class="cal-title" id="calTitle"></div>
+      <div class="cal-grid" id="calGrid" role="grid"></div>
+      <div class="times" id="times" hidden>
+        <div class="times-label">What time? ⏰</div>
+        <div class="time-grid" id="timeGrid"></div>
+      </div>
+      <button type="button" class="btn btn-primary btn-block" id="confirmBtn" disabled>Confirm</button>
+    </div>
+  </section>
+
+  <!-- STEP 4: Done -->
+  <section class="step" id="step-done" hidden>
+    <div class="card">
+      <div class="float-emoji" aria-hidden="true">🥳</div>
+      <div class="summary" id="summary"></div>
+      <p class="small-note">One last thing: tap below so I get your answer 😊</p>
+      <div class="stack">
+        <button type="button" class="btn btn-primary btn-block" id="sendIgBtn">Send me your answer 💌</button>
+        <button type="button" class="btn btn-ghost btn-block" id="sendWaBtn" hidden>Send via WhatsApp 💬</button>
+      </div>
+      <button type="button" class="link-btn" id="restartBtn">↺ start over</button>
+    </div>
+  </section>
+
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<canvas id="confetti" aria-hidden="true"></canvas>
+<div id="safeProbe" aria-hidden="true"></div>
+
+<script>
+/* ==============================================================
+   CONFIG: edit these values
+   ============================================================== */
+const CONFIG = {
+  // Where her answer gets emailed (via the free FormSubmit relay, formsubmit.co).
+  // The very first send triggers a one-time "activate" email from FormSubmit:
+  // click it, and every answer after that lands in your inbox.
+  // Optional: after activating, FormSubmit gives you a random alias string;
+  // put that here instead so your address isn't visible in the page source.
+  notifyEmail: "apostolosl13@gmail.com",
+
+  // Backup if the email can't be sent: copy the answer + open your IG DMs.
+  // Your Instagram username, without the @. Opens https://ig.me/m/<username>
+  instagramUsername: "MY_USERNAME",
+
+  // Your WhatsApp number in international format, digits only, no "+" or spaces
+  // (e.g. "306912345678"). Leave "" to hide the WhatsApp button.
+  whatsappNumber: "",
+
+  // Selectable weekdays: 0 = Sunday, 1 = Monday, ... 5 = Friday, 6 = Saturday
+  allowedWeekdays: [5, 6, 0],
+
+  // Time slots shown after a day is picked (24h "HH:MM")
+  timeSlots: ["19:30", "20:00", "20:30", "21:00", "21:30", "22:00"],
+
+  // How many weeks ahead (starting today) the calendar offers
+  weeksAhead: 4,
+
+  // Texts the "No" button cycles through as it runs away
+  noTexts: ["No", "Are you sure?", "Really?", "Think about the food 🍣", "Last chance…", "Nope, not allowed 😌"],
+
+  // NOTE: the link-preview image (og:image) lives in the <head> at the top of
+  // this file, because Instagram reads it without running this script.
+};
+/* ============================================================== */
+
+(function () {
+  "use strict";
+
+  const $ = (id) => document.getElementById(id);
+  const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const WEEKDAYS_SHORT = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const MONTHS_SHORT = MONTHS.map((m) => m.slice(0, 3));
+  const reducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const state = { food: null, date: null, time: null, summary: "" };
+
+  /* ---------------- Step navigation ---------------- */
+  const steps = {
+    invite: $("step-invite"),
+    food: $("step-food"),
+    date: $("step-date"),
+    done: $("step-done"),
+  };
+  let currentStep = steps.invite;
+  let navigating = false;
+
+  function goTo(name) {
+    const next = steps[name];
+    if (!next || next === currentStep || navigating) return;
+    navigating = true;
+    const prev = currentStep;
+    prev.classList.add("is-leaving");
+    setTimeout(() => {
+      prev.hidden = true;
+      prev.classList.remove("is-leaving");
+      if (name === "date") buildCalendar();
+      if (name === "done") showDone();
+      next.hidden = false;
+      next.classList.add("is-entering");
+      currentStep = next;
+      window.scrollTo(0, 0);
+      setTimeout(() => {
+        next.classList.remove("is-entering");
+        navigating = false;
+        if (name === "done") launchConfetti();
+      }, 440);
+    }, reducedMotion ? 10 : 260);
+  }
+
+  /* ---------------- Viewport helpers ---------------- */
+  const safeProbe = $("safeProbe");
+  function safeInsets() {
+    const cs = getComputedStyle(safeProbe);
+    return {
+      t: parseFloat(cs.paddingTop) || 0,
+      r: parseFloat(cs.paddingRight) || 0,
+      b: parseFloat(cs.paddingBottom) || 0,
+      l: parseFloat(cs.paddingLeft) || 0,
+    };
+  }
+  function viewport() {
+    const de = document.documentElement;
+    let w = window.innerWidth;
+    let h = window.innerHeight;
+    if (de.clientWidth) w = Math.min(w, de.clientWidth);
+    if (de.clientHeight) h = Math.min(h, de.clientHeight);
+    const vv = window.visualViewport;
+    if (vv && Math.abs(vv.scale - 1) < 0.01) {
+      w = Math.min(w, vv.width);
+      h = Math.min(h, vv.height);
+    }
+    return { w, h };
+  }
+
+  /* ---------------- Step 1: the un-pressable "No" ---------------- */
+  const yesBtn = $("yesBtn");
+  const noBtn = $("noBtn");
+  const btnRow = $("btnRow");
+  const EDGE = 12;        // min gap between the No button and screen edges
+  const YES_PAD = 16;     // min gap between the No button and the Yes button
+  let dodges = 0;
+  let lastDodge = 0;
+  let noFloating = false;
+  let yesScale = 1;
+
+  function applyYesScale() {
+    const { w: vw, h: vh } = viewport();
+    const bw = yesBtn.offsetWidth || 1;
+    const bh = yesBtn.offsetHeight || 1;
+    const cap = Math.max(1, Math.min(2.2, (vw - 40) / bw, (vh * 0.28) / bh));
+    yesScale = Math.min(1 + 0.1 * dodges, cap);
+    yesBtn.style.setProperty("--yes-scale", yesScale.toFixed(3));
+    // Reserve vertical room so the grown button doesn't cover the text
+    btnRow.style.minHeight = noFloating ? Math.ceil(bh * yesScale + 8) + "px" : "";
+  }
+
+  // Where the Yes button WILL be once its scale transition finishes
+  function yesTargetRect() {
+    const r = yesBtn.getBoundingClientRect();
+    const cx = r.left + r.width / 2;
+    const cy = r.top + r.height / 2;
+    const hw = (yesBtn.offsetWidth * yesScale) / 2 + YES_PAD;
+    const hh = (yesBtn.offsetHeight * yesScale) / 2 + YES_PAD;
+    return { left: cx - hw, right: cx + hw, top: cy - hh, bottom: cy + hh };
+  }
+
+  function noBounds() {
+    const { w: vw, h: vh } = viewport();
+    const ins = safeInsets();
+    const w = noBtn.offsetWidth;
+    const h = noBtn.offsetHeight;
+    const minX = ins.l + EDGE;
+    const minY = ins.t + EDGE;
+    return {
+      w, h, vw, vh, minX, minY,
+      maxX: Math.max(minX, vw - ins.r - EDGE - w),
+      maxY: Math.max(minY, vh - ins.b - EDGE - h),
+    };
+  }
+
+  function overlaps(x, y, w, h, r) {
+    return x < r.right && x + w > r.left && y < r.bottom && y + h > r.top;
+  }
+
+  function placeNo(avoid) {
+    const b = noBounds();
+    const yr = yesTargetRect();
+    const rand = (a, z) => a + Math.random() * (z - a);
+    const minDist = Math.min(150, (b.vw + b.vh) / 7);
+    const farFromFinger = (x, y) => {
+      if (!avoid) return true;
+      return Math.hypot(x + b.w / 2 - avoid.x, y + b.h / 2 - avoid.y) >= minDist;
+    };
+
+    let pos = null;
+    for (let i = 0; i < 120 && !pos; i++) {
+      const x = rand(b.minX, b.maxX);
+      const y = rand(b.minY, b.maxY);
+      if (!overlaps(x, y, b.w, b.h, yr) && (i >= 80 || farFromFinger(x, y))) pos = { x, y };
+    }
+    if (!pos) {
+      // Deterministic fallback: any corner that's clear of the Yes button
+      const corners = [
+        { x: b.minX, y: b.minY }, { x: b.maxX, y: b.minY },
+        { x: b.minX, y: b.maxY }, { x: b.maxX, y: b.maxY },
+      ];
+      pos = corners.find((c) => !overlaps(c.x, c.y, b.w, b.h, yr)) || corners[0];
+    }
+    noBtn.style.left = Math.round(pos.x) + "px";
+    noBtn.style.top = Math.round(pos.y) + "px";
+  }
+
+  function pointFrom(e) {
+    if (!e) return null;
+    const t = (e.touches && e.touches[0]) || (e.changedTouches && e.changedTouches[0]);
+    if (t) return { x: t.clientX, y: t.clientY };
+    if (typeof e.clientX === "number" && (e.clientX || e.clientY)) return { x: e.clientX, y: e.clientY };
+    return null;
+  }
+
+  function dodge(e) {
+    if (e) {
+      if (e.cancelable) e.preventDefault();
+      e.stopPropagation();
+    }
+    const now = Date.now();
+    if (now - lastDodge < 180) return;   // pointerdown + touchstart fire for the same tap
+    lastDodge = now;
+
+    const before = noBtn.getBoundingClientRect();
+    const avoid = pointFrom(e) || { x: before.left + before.width / 2, y: before.top + before.height / 2 };
+
+    dodges++;
+    noBtn.textContent = CONFIG.noTexts[Math.min(dodges, CONFIG.noTexts.length - 1)];
+
+    if (!noFloating) {
+      // Move to <body> so position:fixed is relative to the screen, not a transformed parent
+      noFloating = true;
+      document.body.appendChild(noBtn);
+      noBtn.classList.add("floating");
+      noBtn.style.left = Math.round(before.left) + "px";
+      noBtn.style.top = Math.round(before.top) + "px";
+      void noBtn.offsetWidth;   // commit start position so the jump animates
+    }
+    applyYesScale();
+    placeNo(avoid);
+  }
+
+  // Keep a floating No button on-screen after rotation / resize / browser-bar changes
+  function refitNo() {
+    if (!noFloating || noBtn.hidden) return;
+    applyYesScale();
+    const b = noBounds();
+    const x = Math.min(Math.max(parseFloat(noBtn.style.left) || 0, b.minX), b.maxX);
+    const y = Math.min(Math.max(parseFloat(noBtn.style.top) || 0, b.minY), b.maxY);
+    if (overlaps(x, y, b.w, b.h, yesTargetRect())) {
+      placeNo(null);
+    } else {
+      noBtn.style.left = Math.round(x) + "px";
+      noBtn.style.top = Math.round(y) + "px";
+    }
+  }
+  let resizeTimer = 0;
+  function onResize() {
+    clearTimeout(resizeTimer);
+    refitNo();                                   // immediately...
+    resizeTimer = setTimeout(refitNo, 150);      // ...and again once layout settles
+  }
+  window.addEventListener("resize", onResize);
+  window.addEventListener("orientationchange", () => setTimeout(onResize, 250));
+  if (window.visualViewport) window.visualViewport.addEventListener("resize", onResize);
+
+  noBtn.addEventListener("pointerdown", dodge);
+  noBtn.addEventListener("touchstart", dodge, { passive: false });
+  noBtn.addEventListener("mouseenter", dodge);
+  noBtn.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") dodge(e);
+  });
+  // Even if a click sneaks through, it does nothing.
+  noBtn.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); });
+  noBtn.addEventListener("contextmenu", (e) => e.preventDefault());
+
+  yesBtn.addEventListener("click", () => {
+    if (noFloating) noBtn.hidden = true;
+    goTo("food");
+  });
+
+  /* ---------------- Step 2: food ---------------- */
+  const foodGrid = $("foodGrid");
+  foodGrid.addEventListener("click", (e) => {
+    const card = e.target.closest(".food-card");
+    if (!card || state.food) return;
+    state.food = { emoji: card.dataset.emoji, label: card.dataset.label };
+    card.classList.add("selected");
+    foodGrid.classList.add("has-choice");
+    setTimeout(() => goTo("date"), reducedMotion ? 250 : 750);
+  });
+
+  /* ---------------- Step 3: calendar ---------------- */
+  const calGrid = $("calGrid");
+  const calTitle = $("calTitle");
+  const timesWrap = $("times");
+  const timeGrid = $("timeGrid");
+  const confirmBtn = $("confirmBtn");
+
+  const startOfDay = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  const addDays = (d, n) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
+  const mondayIndex = (d) => (d.getDay() + 6) % 7;
+  const sameDay = (a, b) => a && b && a.getTime() === b.getTime();
+  function slotDate(day, slot) {
+    const [h, m] = slot.split(":").map(Number);
+    return new Date(day.getFullYear(), day.getMonth(), day.getDate(), h, m);
+  }
+  function hasFutureSlot(day) {
+    const now = new Date();
+    return CONFIG.timeSlots.some((s) => slotDate(day, s) > now);
+  }
+
+  function dayHintText() {
+    const days = CONFIG.allowedWeekdays.slice()
+      .sort((a, b) => ((a + 6) % 7) - ((b + 6) % 7))
+      .map((d) => WEEKDAYS_SHORT[d]);
+    if (!days.length) return "";
+    const list = days.length === 1 ? days[0] : days.slice(0, -1).join(", ") + " & " + days[days.length - 1];
+    return list + " only 😉";
+  }
+
+  function buildCalendar() {
+    state.date = null;
+    state.time = null;
+    timesWrap.hidden = true;
+    updateConfirm();
+    $("dayHint").textContent = dayHintText();
+
+    const today = startOfDay(new Date());
+    const end = addDays(today, CONFIG.weeksAhead * 7 - 1);
+    const gridStart = addDays(today, -mondayIndex(today));
+    const gridEnd = addDays(end, 6 - mondayIndex(end));
+
+    calTitle.textContent = today.getMonth() === end.getMonth()
+      ? MONTHS[today.getMonth()] + " " + today.getFullYear()
+      : MONTHS[today.getMonth()] + " – " + MONTHS[end.getMonth()] + " " + end.getFullYear();
+
+    const frag = document.createDocumentFragment();
+    ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].forEach((t) => {
+      const el = document.createElement("div");
+      el.className = "cal-dow";
+      el.textContent = t;
+      frag.appendChild(el);
+    });
+
+    for (let d = gridStart; d <= gridEnd; d = addDays(d, 1)) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "cal-day";
+      const inRange = d >= today && d <= end;
+      const allowed = CONFIG.allowedWeekdays.includes(d.getDay());
+      const selectable = inRange && allowed && hasFutureSlot(d);
+      btn.disabled = !selectable;
+      if (sameDay(d, today)) btn.classList.add("is-today");
+      if (d.getDate() === 1) {
+        const m = document.createElement("span");
+        m.className = "m";
+        m.textContent = MONTHS_SHORT[d.getMonth()];
+        btn.appendChild(m);
+      }
+      btn.appendChild(document.createTextNode(String(d.getDate())));
+      btn.setAttribute("aria-label", WEEKDAYS[d.getDay()] + ", " + d.getDate() + " " + MONTHS[d.getMonth()]);
+      btn.dataset.ts = String(d.getTime());
+      frag.appendChild(btn);
+    }
+    calGrid.replaceChildren(frag);
+  }
+
+  calGrid.addEventListener("click", (e) => {
+    const btn = e.target.closest(".cal-day");
+    if (!btn || btn.disabled) return;
+    calGrid.querySelectorAll(".cal-day.selected").forEach((b) => b.classList.remove("selected"));
+    btn.classList.add("selected");
+    state.date = new Date(Number(btn.dataset.ts));
+    renderTimes();
+  });
+
+  function renderTimes() {
+    const now = new Date();
+    const frag = document.createDocumentFragment();
+    let keep = false;
+    CONFIG.timeSlots.forEach((slot) => {
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "chip";
+      chip.textContent = slot;
+      chip.dataset.slot = slot;
+      chip.disabled = slotDate(state.date, slot) <= now;
+      if (!chip.disabled && slot === state.time) { chip.classList.add("selected"); keep = true; }
+      frag.appendChild(chip);
+    });
+    if (!keep) state.time = null;
+    timeGrid.replaceChildren(frag);
+    const wasHidden = timesWrap.hidden;
+    timesWrap.hidden = false;
+    updateConfirm();
+    if (wasHidden) scrollIntoViewSoft(timesWrap);
+  }
+
+  timeGrid.addEventListener("click", (e) => {
+    const chip = e.target.closest(".chip");
+    if (!chip || chip.disabled) return;
+    timeGrid.querySelectorAll(".chip.selected").forEach((c) => c.classList.remove("selected"));
+    chip.classList.add("selected");
+    state.time = chip.dataset.slot;
+    updateConfirm();
+    scrollIntoViewSoft(confirmBtn);
+  });
+
+  function updateConfirm() {
+    confirmBtn.disabled = !(state.date && state.time);
+  }
+  function scrollIntoViewSoft(el) {
+    setTimeout(() => {
+      try { el.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "nearest" }); }
+      catch (_) { el.scrollIntoView(false); }
+    }, 60);
+  }
+
+  confirmBtn.addEventListener("click", () => {
+    if (confirmBtn.disabled) return;
+    goTo("done");
+  });
+
+  /* ---------------- Step 4: confirmation ---------------- */
+  const sendWaBtn = $("sendWaBtn");
+
+  function buildSummary() {
+    const d = state.date;
+    return "It's set! " + state.food.emoji + " " + state.food.label + " on " +
+      WEEKDAYS[d.getDay()] + ", " + d.getDate() + " " + MONTHS[d.getMonth()] +
+      " at " + state.time + " 🎉";
+  }
+
+  function showDone() {
+    state.summary = buildSummary();
+    $("summary").textContent = state.summary;
+    sendWaBtn.hidden = !waDigits();
+    emailSent = false;
+    sendIgBtn.disabled = false;
+    sendIgBtn.textContent = "Send me your answer 💌";
+  }
+
+  function waDigits() {
+    return String(CONFIG.whatsappNumber || "").replace(/\D/g, "");
+  }
+
+  function legacyCopy(text) {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.cssText = "position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;font-size:16px;border:0;padding:0;";
+    document.body.appendChild(ta);
+    let ok = false;
+    try {
+      ta.focus({ preventScroll: true });
+      ta.select();
+      ta.setSelectionRange(0, text.length);
+      ok = document.execCommand("copy");
+    } catch (_) { ok = false; }
+    document.body.removeChild(ta);
+    try { window.getSelection().removeAllRanges(); } catch (_) {}
+    return ok;
+  }
+
+  function withTimeout(promise, ms) {
+    return Promise.race([
+      promise,
+      new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), ms)),
+    ]);
+  }
+
+  async function copyText(text) {
+    // Old-school copy first: it must run synchronously inside the tap to work in in-app browsers
+    if (legacyCopy(text)) return true;
+    if (navigator.clipboard && window.isSecureContext) {
+      try { await withTimeout(navigator.clipboard.writeText(text), 1200); return true; }
+      catch (_) {}
+    }
+    return false;
+  }
+
+  let toastTimer = 0;
+  function showToast(msg, ms) {
+    const t = $("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove("show"), ms || 2200);
+  }
+
+  let sending = false;
+  async function copyThenOpen(url) {
+    if (sending) return;
+    sending = true;
+    const ok = await copyText(state.summary);
+    showToast(ok ? "Copied! Just paste it in the chat 💌" : "Couldn't copy, so long-press the text above to copy it 🙏", ok ? 1600 : 3200);
+    setTimeout(() => {
+      sending = false;
+      window.location.href = url;
+    }, ok ? 900 : 2600);
+  }
+
+  function openIgFallback() {
+    const user = String(CONFIG.instagramUsername || "").replace(/^@/, "").trim();
+    copyThenOpen("https://ig.me/m/" + encodeURIComponent(user));
+  }
+
+  async function sendEmail() {
+    const to = String(CONFIG.notifyEmail || "").trim();
+    if (!to) return false;
+    const d = state.date;
+    const answer = state.food.label + " on " + WEEKDAYS[d.getDay()] + ", " + d.getDate() + " " +
+      MONTHS[d.getMonth()] + " " + d.getFullYear() + " at " + state.time;
+    try {
+      const res = await withTimeout(fetch("https://formsubmit.co/ajax/" + to.replace(/[^\w@.+-]/g, ""), {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          _subject: "Viktoria said yes! " + state.food.emoji,
+          _template: "box",
+          _captcha: "false",
+          message: "Viktoria wants this date: " + answer + " " + state.food.emoji,
+          food: state.food.label,
+          date: WEEKDAYS[d.getDay()] + ", " + d.getDate() + " " + MONTHS[d.getMonth()] + " " + d.getFullYear(),
+          time: state.time,
+        }),
+      }), 10000);
+      if (!res.ok) return false;
+      const data = await res.json().catch(() => ({}));
+      return data.success === true || data.success === "true";
+    } catch (_) {
+      return false;
+    }
+  }
+
+  const sendIgBtn = $("sendIgBtn");
+  let emailSent = false;
+  sendIgBtn.addEventListener("click", async () => {
+    if (emailSent || sending) return;
+    if (!String(CONFIG.notifyEmail || "").trim()) { openIgFallback(); return; }
+    sending = true;
+    sendIgBtn.disabled = true;
+    sendIgBtn.textContent = "Sending… ✨";
+    const ok = await sendEmail();
+    sending = false;
+    if (ok) {
+      emailSent = true;
+      sendIgBtn.textContent = "Sent! 💌";
+      showToast("Sent! See you there 😋", 2600);
+    } else {
+      sendIgBtn.disabled = false;
+      sendIgBtn.textContent = "Send me your answer 💌";
+      openIgFallback();
+    }
+  });
+
+  sendWaBtn.addEventListener("click", () => {
+    const n = waDigits();
+    if (!n) return;
+    // The message is pre-filled, so no copy is needed; go straight there.
+    window.location.href = "https://wa.me/" + n + "?text=" + encodeURIComponent(state.summary);
+  });
+
+  $("restartBtn").addEventListener("click", reset);
+
+  function reset() {
+    stopConfetti();
+    dodges = 0;
+    noBtn.textContent = CONFIG.noTexts[0];
+    noBtn.hidden = false;
+    if (noFloating) {
+      noFloating = false;
+      noBtn.classList.remove("floating");
+      noBtn.style.left = "";
+      noBtn.style.top = "";
+      btnRow.appendChild(noBtn);
+    }
+    yesScale = 1;
+    yesBtn.style.setProperty("--yes-scale", "1");
+    btnRow.style.minHeight = "";
+    state.food = null;
+    state.date = null;
+    state.time = null;
+    foodGrid.classList.remove("has-choice");
+    foodGrid.querySelectorAll(".food-card").forEach((c) => c.classList.remove("selected"));
+    goTo("invite");
+  }
+
+  /* ---------------- Confetti (plain canvas) ---------------- */
+  const canvas = $("confetti");
+  const ctx = canvas.getContext("2d");
+  const COLORS = ["#e4654c", "#f6a38c", "#ffc857", "#7fc8a9", "#f28fb1", "#8fb7f2", "#ffffff"];
+  let particles = [];
+  let rafId = 0;
+
+  function sizeCanvas() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(window.innerWidth * dpr);
+    canvas.height = Math.round(window.innerHeight * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function launchConfetti() {
+    stopConfetti();
+    sizeCanvas();
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    const count = reducedMotion ? 40 : 160;
+    for (let i = 0; i < count; i++) {
+      const fromLeft = i % 2 === 0;
+      const angle = (fromLeft ? -60 : -120) + (Math.random() - 0.5) * 50;
+      const speed = 9 + Math.random() * 9;
+      particles.push({
+        x: fromLeft ? -10 : w + 10,
+        y: h * 0.72,
+        vx: Math.cos(angle * Math.PI / 180) * speed,
+        vy: Math.sin(angle * Math.PI / 180) * speed,
+        size: 6 + Math.random() * 6,
+        rot: Math.random() * Math.PI,
+        vr: (Math.random() - 0.5) * 0.3,
+        color: COLORS[(Math.random() * COLORS.length) | 0],
+        round: Math.random() < 0.3,
+        wobble: Math.random() * Math.PI * 2,
+      });
+    }
+    const start = performance.now();
+    const tick = (t) => {
+      ctx.clearRect(0, 0, w, h);
+      particles.forEach((p) => {
+        p.vy += 0.28;
+        p.vx *= 0.985;
+        p.vy *= 0.985;
+        p.wobble += 0.12;
+        p.x += p.vx + Math.sin(p.wobble) * 0.6;
+        p.y += p.vy;
+        p.rot += p.vr;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = p.color;
+        if (p.round) {
+          ctx.beginPath();
+          ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2 * (0.6 + Math.abs(Math.sin(p.wobble))));
+        }
+        ctx.restore();
+      });
+      particles = particles.filter((p) => p.y < h + 30);
+      if (particles.length && t - start < 6000) rafId = requestAnimationFrame(tick);
+      else stopConfetti();
+    };
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function stopConfetti() {
+    cancelAnimationFrame(rafId);
+    rafId = 0;
+    particles = [];
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+})();
+</script>
+</body>
+</html>
